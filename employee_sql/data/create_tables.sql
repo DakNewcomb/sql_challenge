@@ -1,49 +1,54 @@
---Create tables 
-CREATE TABLE department(
-	dept_no VARCHAR(10) PRIMARY KEY NOT NULL,
-	dept_name VARCHAR(20) UNIQUE
+CREATE TABLE employees (
+    emp_no INT   NOT NULL,
+    emp_title_id VARCHAR NOT NULL,
+    birth_date DATE   NOT NULL,
+    first_name VARCHAR   NOT NULL,
+    last_name VARCHAR   NOT NULL,
+    sex VARCHAR   NOT NULL,
+    hire_date DATE   NOT NULL,
+    PRIMARY KEY (emp_no)
 );
+SELECT * FROM employees;
 
-CREATE TABLE  dept_employee(
-	emp_no int PRIMARY KEY,
-	dept_no VARCHAR(10) NOT NULL,
-	CONSTRAINT dept_no_
-		FOREIGN KEY(dept_no)
-			REFERENCES department(dept_no)
+CREATE TABLE depts (
+    dept_no VARCHAR   NOT NULL,
+    dept_name VARCHAR   NOT NULL,
+    PRIMARY KEY (dept_no)
 );
+SELECT * FROM depts;
+
+CREATE TABLE dept_emp (
+    emp_no INT   NOT NULL,
+    dept_no VARCHAR   NOT NULL,
+    FOREIGN KEY (emp_no) REFERENCES employees (emp_no),
+    FOREIGN KEY (dept_no) REFERENCES depts (dept_no),
+    PRIMARY KEY (emp_no, dept_no)
+);
+SELECT * FROM dept_emp;
 
 CREATE TABLE dept_manager(
-	dept_no_ VARCHAR(10) NOT NULL,
+	dept_no VARCHAR(10) NOT NULL,
 	emp_no int UNIQUE,
-	CONSTRAINT emp_no_
-		FOREIGN KEY(emp_no)
-			REFERENCES dept_employee(emp_no)
+	FOREIGN KEY (dept_no) REFERENCES depts(dept_no),
+	FOREIGN KEY (emp_no) REFERENCES employees (emp_no),
+	PRIMARY KEY (emp_no, dept_no)
 );
+
+SELECT * FROM dept_manager;
+
+CREATE TABLE salary(
+	emp_no int PRIMARY KEY,
+	salary int,
+	FOREIGN KEY (emp_no) REFERENCES employees (emp_no)
+);
+
+SELECT * FROM salary;
 
 CREATE TABLE title(
 	title_id VARCHAR(10) PRIMARY KEY,
 	title VARCHAR(25)
 );
 
-CREATE TABLE employees(
-	emp_no_ int PRIMARY KEY,
-	title_id VARCHAR(10),
-	CONSTRAINT title_id_
-		FOREIGN KEY(title_id)
-			REFERENCES title(title_id),
-	birth_date date,
-	first_name VARCHAR(30),
-	last_name VARCHAR (30),
-	sex VARCHAR(5), 
-	hire_date date
-);
-
-CREATE TABLE Salary(
-	emp_no_ int PRIMARY KEY,
-	salary int
-);
-
---Read in csv files to tables
-SELECT * FROM department;
-SELECT * FROM salary;
 SELECT * FROM title;
+
+
